@@ -27,7 +27,7 @@ import { CreateContactDto } from './dto/create-contact.dto';
 import { UpdateContactDto } from './dto/update-contact.dto';
 
 @SerializeOptions({ strategy: 'exposeAll' })
-@Controller('contacts')
+@Controller('api/contacts')
 @ApiTags('Contacts')
 export class ContactsController {
   constructor(private readonly contactsService: ContactsService) {}

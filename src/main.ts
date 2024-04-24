@@ -1,20 +1,22 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors();
-  const config = new DocumentBuilder().addBearerAuth()
+  const config = new DocumentBuilder()
+    .addBearerAuth()
 
-    .setTitle('Cats example')
-    .setDescription('The Contacts API')
+    .setTitle('Contacts API')
+    .setDescription(
+      'This api allows users to save and manage all their contact information',
+    )
     .setVersion('1.0')
-    .addTag('Contacts')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/docs', app, document);
-  
+
   await app.listen(3001);
 }
 bootstrap();
