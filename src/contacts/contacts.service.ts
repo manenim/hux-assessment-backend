@@ -9,7 +9,7 @@ export class ContactsService {
   }
 
   findAll() {
-    return `This action returns all contacts`;
+    return {message: "This action returns all contacts"};
   }
 
   findOne(id: number) {
