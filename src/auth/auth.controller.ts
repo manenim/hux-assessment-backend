@@ -12,6 +12,7 @@ import { AuthService } from './auth.service';
 import { CurrentUser } from './decorators/current-user.decorator';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { RefreshJwtGuard } from './guards/refresh.guard';
+import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 
 const EXPIRES_TIME = 20 * 1000;
 
@@ -23,9 +24,12 @@ export class AuthController {
   @Post('login')
   @UseInterceptors(ClassSerializerInterceptor)
   @UseGuards(LocalAuthGuard)
-  login(@CurrentUser() user: User) {
-    const tokens = this.authService.createTokens(user);
-    console.log('ran', tokens);
+  @ApiOperation({ summary: 'Login' })
+  @ApiResponse({ status: 200, description: 'Successfuly loggedin' })
+  @UseInterceptors(ClassSerializerInterceptor)
+  login(@CurrentUser() currentUser: User) {
+    const tokens = this.authService.createTokens(currentUser);
+    const { password, ...user } = currentUser;
     return {
       message: 'user logged in successfully',
       status: 200,

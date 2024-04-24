@@ -20,8 +20,9 @@ export class UsersService {
   async create(createUserDto: CreateUserDto) {
     try {
       const user = await this.findUserByEmail(createUserDto.email);
-      if (user)
+      if (user) {
         throw new BadRequestException('Email already exists try logging in');
+      }
       const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
       const newUser = { ...createUserDto, password: hashedPassword };
       const savedUser = await this.usersRepository.save(newUser);
@@ -35,7 +36,7 @@ export class UsersService {
     } catch (error: unknown) {
       console.log(error);
       throw new InternalServerErrorException({
-        message: 'There was an error...',
+        message: 'There was an error....',
         error,
       });
     }

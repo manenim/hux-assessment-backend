@@ -34,11 +34,11 @@ export class AuthService {
     return {
       accessToken: await this.jwtService.signAsync(payload, {
         expiresIn: '20s',
-        secret: process.env.jwtSecretKey,
+        secret: process.env.JWT_SECRET,
       }),
       refreshToken: await this.jwtService.signAsync(payload, {
         expiresIn: '7d',
-        secret: process.env.jwtRefreshTokenKey,
+        secret: process.env.JWT_SECRET,
       }),
       expiresIn: new Date().setTime(new Date().getTime() + EXPIRE_TIME),
     };
