@@ -1,34 +1,44 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  ClassSerializerInterceptor,
+  Controller,
+  Post,
+  SerializeOptions,
+  UseGuards,
+  UseInterceptors,
+  Request,
+} from '@nestjs/common';
+import { User } from 'src/users/entities/user.entity';
 import { AuthService } from './auth.service';
-import { CreateAuthDto } from './dto/create-auth.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
+import { CurrentUser } from './decorators/current-user.decorator';
+import { LocalAuthGuard } from './guards/local-auth.guard';
+import { RefreshJwtGuard } from './guards/refresh.guard';
 
+const EXPIRES_TIME = 20 * 1000;
+
+@SerializeOptions({ strategy: 'exposeAll' })
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Post()
-  create(@Body() createAuthDto: CreateAuthDto) {
-    return this.authService.create(createAuthDto);
+  @Post('login')
+  @UseInterceptors(ClassSerializerInterceptor)
+  @UseGuards(LocalAuthGuard)
+  login(@CurrentUser() user: User) {
+    const tokens = this.authService.createTokens(user);
+    console.log('ran', tokens);
+    return {
+      message: 'user logged in successfully',
+      status: 200,
+      user,
+      tokens,
+    };
   }
 
-  @Get()
-  findAll() {
-    return this.authService.findAll();
-  }
+  @UseGuards(RefreshJwtGuard)
+  @Post('refresh')
+  async refreshToken(@Request() req) {
+    console.log('refreshed');
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.authService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAuthDto: UpdateAuthDto) {
-    return this.authService.update(+id, updateAuthDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.authService.remove(+id);
+    return await this.authService.refreshToken(req.user);
   }
 }
