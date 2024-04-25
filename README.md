@@ -23,12 +23,14 @@
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
 ## Description
+### Contacts app API
+This API was built with nestJS and uses AWS RDS Postgres DB as its Data store.  Swagger docss is in project description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Installation
+## Project Setup
 
 ```bash
+$ git clone 
+$ cd hux-assessment-backend
 $ pnpm install
 ```
 
