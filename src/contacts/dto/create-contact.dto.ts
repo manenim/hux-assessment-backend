@@ -25,6 +25,24 @@ export class CreateContactDto {
     example: '09077447722',
   })
   @IsNotEmpty()
-  @IsEmail()
+  @IsString()
   phoneNumber: string;
+
+  @ApiProperty({
+    type: String,
+    default: 'akachi@gmail.com',
+    example: 'akachi@gmail.com',
+  })
+  @IsNotEmpty()
+  @IsEmail()
+  email: string;
+
+  @ApiProperty({
+    type: String,
+    default: 'No5, Ota Road, Dugbe',
+    example: 'No5, Ota Road, Dugbe',
+  })
+  @IsNotEmpty()
+  @IsString()
+  homeAddress: string;
 }

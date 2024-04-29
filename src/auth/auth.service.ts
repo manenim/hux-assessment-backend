@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { User } from 'src/users/entities/user.entity';
 
-const EXPIRY_TIME = 20 * 1000;
+const EXPIRY_TIME = 200000 * 1000;
 
 @Injectable()
 export class AuthService {
@@ -15,7 +15,7 @@ export class AuthService {
     };
 
     const accessToken = this.jwtService.sign(payload, {
-      expiresIn: '1h',
+      expiresIn: '5h',
     });
     const refreshToken = this.jwtService.sign(payload, {
       expiresIn: '24h',

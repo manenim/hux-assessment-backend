@@ -85,6 +85,8 @@ export class ContactsService {
 
     const contact = await this.findOneByUserId(userId, contactId);
 
+    console.log(contact, contactId)
+
     if (!contact) {
       throw new NotFoundException('Contact not found');
     }

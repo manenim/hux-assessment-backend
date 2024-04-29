@@ -15,6 +15,12 @@ export class Contact {
   @Column({ unique: true })
   phoneNumber: string;
 
+  @Column({ unique: true })
+  email: string;
+
+  @Column({ unique: true })
+  homeAddress: string;
+
   @ManyToOne((type) => User, (user) => user.contact)
   user: User;
 }
